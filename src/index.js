@@ -1,7 +1,3 @@
-/*
- * For Tips and Advanced Usage read this Blog Post
- * https://levelup.gitconnected.com/integrating-p5-sketches-into-your-react-app-de44a8c74e91
- */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sketch from 'react-p5';
@@ -9,11 +5,20 @@ import './styles.css';
 import Pie from './pie';
 import Plate from './plate.js';
 
+
 const App = () => {
-	let digits = '3.';
+	let digits = '';
 	let digitsDiv;
 	let pies = [];
 	let plate;
+	let bg = '';
+	let letterBg = '';
+
+	const preload = (p5) => {
+        bg = p5.loadImage('https://res.cloudinary.com/nzmai/image/upload/v1686221906/images%20for%20kahoot/cosmic-background.jpg');
+		letterBg = p5.loadImage('https://res.cloudinary.com/nzmai/image/upload/v1686227368/images%20for%20kahoot/diamond.png');
+    };
+
 	const setup = (p5, parentRef) => {
 		p5.createCanvas(800, 400).parent(parentRef);
 		digitsDiv = p5.createDiv(digits);
@@ -22,9 +27,9 @@ const App = () => {
 
 	const draw = (p5) => {
 		if (p5.random(1) < 0.03) {
-			pies.push(new Pie(p5.random(p5.width), p5.random(-100, -20), p5));
+			pies.push(new Pie(p5.random(p5.width), p5.random(-100, -20), letterBg, p5));
 		}
-		p5.background(0);
+		p5.background(bg);
 
 		for (let pie of pies) {
 			pie.show();
@@ -50,7 +55,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<h1>Catch a Letter Game</h1>
-			<Sketch setup={setup} draw={draw} />
+			<Sketch preload={preload} setup={setup} draw={draw} />
 		</div>
 	);
 };

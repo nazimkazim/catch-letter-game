@@ -2,13 +2,14 @@ let letterQueue = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', '
 letterQueue = letterQueue.concat(letterQueue); // doubling up the letter quantity for a longer sequence before refill
 
 class Pie {
-	constructor(x, y, p5) {
+	constructor(x, y, letterBg, p5) {
 		this.x = x;
 		this.y = y;
 		this.p5 = p5;
 		this.r = 16;
 		this.digit = this.generateRandomLetter();
 		this.yspeed = 0;
+		this.bg = letterBg;
 	}
 
 	generateRandomLetter() {
@@ -22,12 +23,25 @@ class Pie {
 	}
 
 	show() {
-		this.p5.fill(255);
-		this.p5.circle(this.x, this.y, this.r * 2);
+		this.p5.push(); // Save current drawing state
+	
+		// Move the origin to the pie's center
+		this.p5.translate(this.x, this.y);
+	
+		// Rotate the pie
+		let angle = this.p5.frameCount * 0.02; // Adjust speed of rotation as needed
+		this.p5.rotate(angle);
+	
+		// Since the origin is now at the pie's center, draw the pie at (0, 0)
+		this.p5.imageMode(this.p5.CENTER);
+		this.p5.image(this.bg, 0, 0, this.r * 2, this.r * 2);
+	
 		this.p5.fill(0);
 		this.p5.textSize(32);
 		this.p5.textAlign(this.p5.CENTER, this.p5.CENTER);
-		this.p5.text(this.digit, this.x, this.y);
+		this.p5.text(this.digit, 0, 0);
+	
+		this.p5.pop(); // Restore original drawing state
 	}
 
 	update() {

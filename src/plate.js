@@ -4,8 +4,10 @@ class Plate {
 		this.w = w;
 		this.h = 20;
 		this.p5 = p5;
+		this.start = 0;
 		this.y = p5.height - this.h;
-		this.word = p5.random(['Good', 'Great', 'Awesome', 'Amazing', 'Fantastic', 'Wonderful', 'Incredible', 'Unbelievable']);
+		this.words = ['Good', 'Great', 'Awesome', 'Amazing', 'Fantastic', 'Wonderful', 'Incredible', 'Unbelievable'];
+		this.word = this.words[this.start]
 		this.w = 100;
 		this.numberOfGaps = this.p5.floor(this.p5.random(2, this.word.length - 2));
 		this.gapPositions = this.getGapPositions().map((num) => {
@@ -15,6 +17,7 @@ class Plate {
 			}
 		});
 		this.wordWithGaps = this.createAWordWithGapsAtRandomPositions();
+		this.bg = p5.loadImage('https://res.cloudinary.com/nzmai/image/upload/v1686221906/images%20for%20kahoot/cosmic-background.jpg');
 	}
 
 	getGapPositions() {
@@ -29,8 +32,10 @@ class Plate {
 
 	show() {
 		this.p5.fill(255);
+		this.p5.noStroke();
 		this.p5.rectMode(this.p5.CENTER);
 		this.p5.rect(this.x, this.y, this.w, this.h);
+		// this.p5.background(this.bg);
 	}
 
 	getOnlyPositions(gapPositions) {
@@ -40,8 +45,6 @@ class Plate {
 	createAWordWithGapsAtRandomPositions() {
 		let word = this.word;
 		let wordWithGaps = '';
-		// console.log(this.gapPositions);
-
 		for (let i = 0; i < word.length; i++) {
 			if (this.getOnlyPositions(this.gapPositions).includes(i)) {
 				wordWithGaps += '_';
@@ -54,7 +57,6 @@ class Plate {
 
 	showWord() {
 		const wordWithGap = this.wordWithGaps;
-		// console.log(this.createAWordWithGapsAtRandomPositions());
 		this.p5.fill(0);
 		this.p5.textSize(32);
 		this.p5.textAlign(this.p5.CENTER, this.p5.CENTER);
@@ -75,22 +77,41 @@ class Plate {
 		this.wordWithGaps = this.wordWithGaps.substring(0, position) + letter + this.wordWithGaps.substring(position + 1);
 	}
 
-	checkCaughtLetterIsMissing(pie) {
-		const letter = pie.digit;
-		// Sort the gaps
-		let gapPositionsOrdered = this.gapPositions.sort((a, b) => a.position - b.position);
-		// Go through all the gaps
-		for (let i = 0; i < gapPositionsOrdered.length; i++) {
-			// If the letter at the gap position in the word matches the caught letter and the gap is not filled yet
-			if (this.word[gapPositionsOrdered[i].position].toLowerCase() === letter && !gapPositionsOrdered[i].filled) {
-				// Fill the gap and set it as filled
-				gapPositionsOrdered[i].filled = true;
-				this.fillGapWithLetter(letter, gapPositionsOrdered[i].position);
-				console.log('caught');
-				return true;
+	isWordComplete() {
+		for (let gap of this.gapPositions) {
+			if (!gap.filled) {
+				return false;
 			}
 		}
-		return false;
+		return true;
+	}
+
+	checkCaughtLetterIsMissing(pie) {
+		const letter = pie.digit;
+		let gapPositionsOrdered = this.gapPositions.sort((a, b) => a.position - b.position);
+		for (let i = 0; i < gapPositionsOrdered.length; i++) {
+			if (this.word[gapPositionsOrdered[i].position].toLowerCase() === letter && !gapPositionsOrdered[i].filled) {
+				gapPositionsOrdered[i].filled = true;
+				this.fillGapWithLetter(letter, gapPositionsOrdered[i].position);
+			}
+		}
+
+		if (this.isWordComplete()) {
+			this.start++;
+			if (this.start < this.words.length) {
+				this.word = this.words[this.start];
+				this.numberOfGaps = this.p5.floor(this.p5.random(2, this.word.length - 2));
+				this.gapPositions = this.getGapPositions().map((num) => {
+					return {
+						position: num,
+						filled: false,
+					}
+				});
+				this.wordWithGaps = this.createAWordWithGapsAtRandomPositions();
+			}
+		}
+		
+
 	}
 }
 
