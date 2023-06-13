@@ -22,6 +22,11 @@ class Pie {
 		return letterQueue.splice(randomIndex, 1)[0]; // Remove the selected letter from the queue
 	}
 
+	bounceOffAndFall() {
+		this.y = this.y - this.yspeed;
+		this.yspeed = this.yspeed + 0.01;
+	}
+
 	show() {
 		this.p5.push(); // Save current drawing state
 	

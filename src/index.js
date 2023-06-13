@@ -26,10 +26,11 @@ const App = () => {
 	};
 
 	const draw = (p5) => {
+		p5.clear();
+		p5.background(0);
 		if (p5.random(1) < 0.03) {
 			pies.push(new Pie(p5.random(p5.width), p5.random(-100, -20), letterBg, p5));
 		}
-		p5.background(bg);
 
 		for (let pie of pies) {
 			pie.show();
@@ -39,11 +40,10 @@ const App = () => {
 		for (let i = pies.length - 1; i > 0; i--) {
 			if (plate.catches(pies[i])) {
 				plate.checkCaughtLetterIsMissing(pies[i]);
-				digits += pies[i].digit;
-				digitsDiv.html(digits);
 				pies.splice(i, 1);
 			} else if (pies[i].y > p5.height + pies[i].r) {
-				pies.splice(i, 1);
+				pies[i].bounceOffAndFall()
+				// pies.splice(i, 1);
 			}
 		}
 		plate.x = p5.mouseX;
