@@ -23,7 +23,7 @@ class Pie {
 	}
 
 	bounceOffAndFall() {
-		this.y = this.y - this.yspeed;
+		this.y = this.y - 20;
 		this.yspeed = this.yspeed + 0.01;
 	}
 

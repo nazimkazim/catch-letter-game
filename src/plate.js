@@ -1,5 +1,5 @@
 class Plate {
-	constructor(x, w, p5) {
+	constructor(x, w, bonusSound, p5) {
 		this.x = x;
 		this.w = w;
 		this.h = 20;
@@ -11,6 +11,7 @@ class Plate {
 		this.words = ['Good', 'Great', 'Awesome', 'Amazing', 'Fantastic', 'Wonderful', 'Incredible', 'Unbelievable'];
 		this.word = this.words[this.start];
 		this.numberOfGaps = this.p5.floor(this.p5.random(2, this.word.length - 2));
+		this.bonusSound = bonusSound;
 		this.gapPositions = this.getGapPositions().map((num) => {
 			return {
 				position: num,
@@ -114,7 +115,10 @@ class Plate {
 			if (this.word[gapPositionsOrdered[i].position].toLowerCase() === letter && !gapPositionsOrdered[i].filled) {
 				gapPositionsOrdered[i].filled = true;
 				this.fillGapWithLetter(letter, gapPositionsOrdered[i].position);
-			}
+				pie.yspeed = 0;
+				pie.bounceOffAndFall();
+				this.bonusSound.play();
+			} 
 		}
 
 		if (this.isWordComplete()) {
