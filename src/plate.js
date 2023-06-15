@@ -1,17 +1,24 @@
+import bonus from './audio/bonus.mp3';
+import fireMagic from './audio/fire-magic.mp3';
+import {Particle} from './particle.js';
+
 class Plate {
-	constructor(x, w, bonusSound, p5) {
+	constructor(x, w, p5) {
 		this.x = x;
 		this.w = w;
 		this.h = 20;
 		this.p5 = p5;
 		this.start = 0;
+		this.particles = [];
 		this.diamondWidth = 30;
 		this.diamondGap = 10;
 		this.y = p5.height - this.h;
 		this.words = ['Good', 'Great', 'Awesome', 'Amazing', 'Fantastic', 'Wonderful', 'Incredible', 'Unbelievable'];
 		this.word = this.words[this.start];
 		this.numberOfGaps = this.p5.floor(this.p5.random(2, this.word.length - 2));
-		this.bonusSound = bonusSound;
+		this.bonusSound = new Audio(bonus);
+		this.damage = new Audio(fireMagic);
+		console.log('this.bonusSound', this.bonusSound);
 		this.gapPositions = this.getGapPositions().map((num) => {
 			return {
 				position: num,
@@ -50,11 +57,16 @@ class Plate {
 		return wordWithGaps;
 	}
 
+	createExplosion(x, y) {
+		for (let i = 0; i < 10; i++) {
+			this.particles.push(new Particle(x, y, this.p5));
+		}
+	}
+
 	show() {
 		const wordWithGap = this.wordWithGaps;
 		//assuming diamondGap to be the gap between diamonds
 		this.w = wordWithGap.length * this.diamondWidth + (wordWithGap.length - 1) + this.diamondGap;
-
 		// show rectangle for the word
 		// transparent white
 		this.p5.fill(255, 255, 255, 0);
@@ -62,6 +74,14 @@ class Plate {
 		this.p5.rectMode(this.p5.CENTER);
 		//assuming diamondWidth to be the height of the plate
 		this.p5.rect(this.x + this.w / 2, this.y, this.w, this.diamondWidth);
+
+		for (let i = this.particles.length - 1; i >= 0; i--) {
+			this.particles[i].update();
+			this.particles[i].show();
+			if (this.particles[i].isDead()) {
+			  this.particles.splice(i, 1);
+			}
+		  }
 	}
 
 	showWord() {
@@ -118,7 +138,10 @@ class Plate {
 				pie.yspeed = 0;
 				pie.bounceOffAndFall();
 				this.bonusSound.play();
-			} 
+			} else {
+				this.createExplosion(pie.x, pie.y);
+				this.damage.play();
+			}
 		}
 
 		if (this.isWordComplete()) {

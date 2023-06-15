@@ -4,7 +4,6 @@ import Sketch from 'react-p5';
 import './styles.css';
 import Pie from './pie';
 import Plate from './plate.js';
-import bonus from './audio/bonus.mp3';
 import 'p5/lib/addons/p5.sound';
 
 const App = () => {
@@ -14,7 +13,6 @@ const App = () => {
 	let plate;
 	let bg = '';
 	let letterBg = '';
-	let bonusSound;
 
 	const preload = (p5) => {
 		bg = p5.loadImage(
@@ -24,14 +22,13 @@ const App = () => {
 			'https://res.cloudinary.com/nzmai/image/upload/v1686227368/images%20for%20kahoot/diamond.png'
 		);
 		p5.soundFormats('mp3', 'ogg');
-		bonusSound = p5.loadSound(bonus);
+
 	};
 
 	const setup = (p5, parentRef) => {
-		console.log(bonusSound)
 		p5.createCanvas(800, 400).parent(parentRef);
 		digitsDiv = p5.createDiv(digits);
-		plate = new Plate(p5.width / 2, 50, bonusSound, p5);
+		plate = new Plate(p5.width / 2, 50, p5);
 	};
 
 	const draw = (p5) => {
