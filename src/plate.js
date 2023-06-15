@@ -1,6 +1,7 @@
 import bonus from './audio/bonus.mp3';
-import fireMagic from './audio/fire-magic.mp3';
-import {Particle} from './particle.js';
+import hurtSound from './audio/hurt.mp3';
+import { Particle } from './particle.js';
+import { Firework } from './firework';
 
 class Plate {
 	constructor(x, w, p5) {
@@ -10,6 +11,7 @@ class Plate {
 		this.p5 = p5;
 		this.start = 0;
 		this.particles = [];
+		this.fireworks = [];
 		this.diamondWidth = 30;
 		this.diamondGap = 10;
 		this.y = p5.height - this.h;
@@ -17,8 +19,7 @@ class Plate {
 		this.word = this.words[this.start];
 		this.numberOfGaps = this.p5.floor(this.p5.random(2, this.word.length - 2));
 		this.bonusSound = new Audio(bonus);
-		this.damage = new Audio(fireMagic);
-		console.log('this.bonusSound', this.bonusSound);
+		this.damage = new Audio(hurtSound);
 		this.gapPositions = this.getGapPositions().map((num) => {
 			return {
 				position: num,
@@ -79,9 +80,18 @@ class Plate {
 			this.particles[i].update();
 			this.particles[i].show();
 			if (this.particles[i].isDead()) {
-			  this.particles.splice(i, 1);
+				this.particles.splice(i, 1);
 			}
-		  }
+		}
+
+		/* for (let i = this.fireworks.length - 1; i >= 0; i--) {
+			this.fireworks[i].update();
+			this.fireworks[i].show();
+
+			if (this.fireworks[i].finished()) {
+				this.fireworks.splice(i, 1);
+			}
+		} */
 	}
 
 	showWord() {
@@ -131,6 +141,7 @@ class Plate {
 	checkCaughtLetterIsMissing(pie) {
 		const letter = pie.digit;
 		let gapPositionsOrdered = this.gapPositions.sort((a, b) => a.position - b.position);
+		let correctLetterFound = false;
 		for (let i = 0; i < gapPositionsOrdered.length; i++) {
 			if (this.word[gapPositionsOrdered[i].position].toLowerCase() === letter && !gapPositionsOrdered[i].filled) {
 				gapPositionsOrdered[i].filled = true;
@@ -138,10 +149,16 @@ class Plate {
 				pie.yspeed = 0;
 				pie.bounceOffAndFall();
 				this.bonusSound.play();
-			} else {
-				this.createExplosion(pie.x, pie.y);
-				this.damage.play();
+				correctLetterFound = true; /* 
+				let firework = new Firework(pie.x, pie.y, this.p5);
+				this.fireworks.push(firework); */
+				break; // exit the loop as we have found the letter
 			}
+		}
+
+		if (!correctLetterFound) {
+			this.createExplosion(pie.x, pie.y);
+			this.damage.play();
 		}
 
 		if (this.isWordComplete()) {
