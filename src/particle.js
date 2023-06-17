@@ -5,6 +5,12 @@ export class Particle {
 		this.vel = this.p5.createVector(this.p5.random(-1, 1), this.p5.random(-1, 1));
 		this.acc = this.p5.createVector(0, 0);
 		this.lifespan = 255;
+		// Randomly generate RGB color
+		this.color = this.p5.color(
+			this.p5.random(0, 255), // Red
+			this.p5.random(100, 255), // Green, lower bound set to 100 to ensure some green
+			this.p5.random(100, 255) // Blue, lower bound set to 100 to ensure some blue
+		);
 	}
 
 	applyForce(force) {
@@ -19,7 +25,7 @@ export class Particle {
 	}
 
 	show() {
-		this.p5.stroke(255,0, 0, this.lifespan);
+		this.p5.stroke(this.color, this.lifespan);
 		this.p5.strokeWeight(4);
 		this.p5.point(this.pos.x, this.pos.y);
 	}
