@@ -19,7 +19,7 @@ export class Particle {
 	}
 
 	show() {
-		this.p5.stroke(255, this.lifespan);
+		this.p5.stroke(255,0, 0, this.lifespan);
 		this.p5.strokeWeight(4);
 		this.p5.point(this.pos.x, this.pos.y);
 	}

@@ -58,10 +58,12 @@ const App = () => {
 				let pie = pies[j];
 				let d = p5.dist(bullet.pos.x, bullet.pos.y, pie.x, pie.y);
 				if (d < pie.r) {
-					// assuming pies have a property 'radius'
-					// collision detected, remove both bullet and pie
+					// collision detected, create explosion
+					pie.createExplosion(pie.x, pie.y);
+					// remove bullet
 					bullets.splice(i, 1);
-					pies.splice(j, 1);
+					// set a 'dead' flag on the pie, instead of removing it immediately
+					pie.dead = true;
 					// exit the loop early as the bullet has been removed
 					break;
 				}
@@ -73,9 +75,10 @@ const App = () => {
 		}
 
 		for (let i = pies.length - 1; i > 0; i--) {
-			if (plate.catches(pies[i])) {
-				plate.checkCaughtLetterIsMissing(pies[i]);
-			} else if (pies[i].y > p5.height) {
+			const pie = pies[i];
+			if (plate.catches(pie)) {
+				plate.checkCaughtLetterIsMissing(pie);
+			} else if (pie.y > p5.height) {
 				pies.splice(i, 1);
 			}
 		}
