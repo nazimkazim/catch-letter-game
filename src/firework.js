@@ -10,7 +10,8 @@ export class Firework {
   
     update() {
       if (!this.exploded) {
-        this.shell.applyForce(this.p5.createVector(0, -0.1)); // apply upward force to the shell
+        // apply upward force to the shell
+        this.shell.applyForce(this.p5.createVector(0, -0.1));
         this.shell.update();
         
         // once the shell starts falling down
@@ -21,7 +22,8 @@ export class Firework {
       }
   
       for (let i = this.particles.length - 1; i >= 0; i--) {
-        this.particles[i].applyForce(this.p5.createVector(0, 0.1)); // apply gravity to particles
+        // apply gravity to particles
+        this.particles[i].applyForce(this.p5.createVector(0, 0.1));
         this.particles[i].update();
 
         // if the particle's life is over

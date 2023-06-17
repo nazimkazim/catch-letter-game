@@ -1,7 +1,7 @@
 import bonus from './audio/bonus.mp3';
 import hurtSound from './audio/hurt.mp3';
 import { Particle } from './particle.js';
-import { Firework } from './firework';
+// import { Firework } from './firework';
 
 class Plate {
 	constructor(x, w, p5) {
@@ -104,7 +104,8 @@ class Plate {
 			this.p5.imageMode(this.p5.CENTER);
 			this.p5.image(this.bg, xPos, this.y, this.diamondWidth, this.diamondWidth);
 
-			this.p5.fill(255); // white
+			// white text
+			this.p5.fill(255);
 			this.p5.textSize(32);
 			this.p5.textAlign(this.p5.CENTER, this.p5.CENTER);
 			this.p5.text(letter, xPos, this.y);
@@ -152,7 +153,8 @@ class Plate {
 				correctLetterFound = true; /* 
 				let firework = new Firework(pie.x, pie.y, this.p5);
 				this.fireworks.push(firework); */
-				break; // exit the loop as we have found the letter
+				// exit the loop as we have found the letter
+				break;
 			}
 		}
 
