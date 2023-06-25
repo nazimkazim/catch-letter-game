@@ -1,0 +1,13 @@
+.App {
+    text-align: center;
+}
+
+.start-btn {
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    border: none;
+    padding: 20px;
+    background-color: rgb(144, 184, 184);
+}

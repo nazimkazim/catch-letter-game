@@ -1,5 +1,6 @@
 import bonus from './audio/bonus.mp3';
 import hurtSound from './audio/hurt.mp3';
+import nextRound from './audio/next-round.mp3'
 import { Particle } from './particle.js';
 // import { Firework } from './firework';
 
@@ -20,6 +21,8 @@ class Plate {
 		this.numberOfGaps = this.p5.floor(this.p5.random(2, this.word.length - 2));
 		this.bonusSound = new Audio(bonus);
 		this.damage = new Audio(hurtSound);
+		this.nextRound = new Audio(nextRound);
+		
 		this.gapPositions = this.getGapPositions().map((num) => {
 			return {
 				position: num,
@@ -150,17 +153,22 @@ class Plate {
 				pie.yspeed = 0;
 				pie.bounceOffAndFall();
 				this.bonusSound.play();
-				correctLetterFound = true; /* 
+				correctLetterFound = true; 
+				/* 
 				let firework = new Firework(pie.x, pie.y, this.p5);
-				this.fireworks.push(firework); */
+				this.fireworks.push(firework); 
+				*/
 				// exit the loop as we have found the letter
 				break;
 			}
 		}
 
-		if (!correctLetterFound) {
+		if (!correctLetterFound && letter.length > 0) {
 			this.createExplosion(pie.x, pie.y);
 			this.damage.play();
+		} else if (!correctLetterFound && letter === "") {
+			this.createExplosion(pie.x, pie.y);
+			this.nextRound.play();
 		}
 
 		if (this.isWordComplete()) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sketch from 'react-p5';
-import './styles.css';
+import './index.css'
 import { Pie, SpecialPie } from './pie';
 import Plate from './plate.js';
 import { Bullet } from './bullet.js';
@@ -59,6 +59,8 @@ const App = () => {
 	};
 
 	const draw = (p5) => {
+		p5.background(0);
+
 		if (gameStarted) {
 		p5.clear();
 		p5.background(0);
@@ -126,7 +128,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<h1>Catch a Letter Game</h1>
-			<button onClick={startGame}>Start Game</button>
+			<button className='start-btn' onClick={startGame}>Start Game</button>
 			{<Sketch preload={preload} setup={setup} draw={draw} mouseClicked={mouseClicked} />}
 		</div>
 	);

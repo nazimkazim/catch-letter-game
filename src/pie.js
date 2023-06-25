@@ -26,7 +26,9 @@ let letterQueue = [
 	'y',
 	'z',
 ];
-letterQueue = letterQueue.concat(letterQueue); // doubling up the letter quantity for a longer sequence before refill
+
+// doubling up the letter quantity for a longer sequence before refill
+letterQueue = letterQueue.concat(letterQueue);
 
 export class Pie {
 	constructor(x, y, letterBg, p5) {
@@ -84,7 +86,8 @@ export class Pie {
 	}
 
 	show() {
-		this.p5.push(); // Save current drawing state
+		// Save current drawing state
+		this.p5.push();
 
 		// Move the origin to the pie's center
 		this.p5.translate(this.x, this.y);
@@ -115,7 +118,8 @@ export class Pie {
 export class SpecialPie extends Pie {
 	constructor(x, y, letterBg, p5) {
 		super(x, y, letterBg, p5);
-		this.special = true; // Special property
+		// Special property
+		this.special = true;
 		this.digit = ''
 	}
 }
