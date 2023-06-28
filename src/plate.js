@@ -1,6 +1,6 @@
 import bonus from './audio/bonus.mp3';
 import hurtSound from './audio/hurt.mp3';
-import nextRound from './audio/next-round.mp3'
+import nextRound from './audio/next-round.mp3';
 import { Particle } from './particle.js';
 // import { Firework } from './firework';
 
@@ -16,13 +16,14 @@ class Plate {
 		this.diamondWidth = 30;
 		this.diamondGap = 10;
 		this.y = p5.height - this.h;
-		this.words = ['Good', 'Great', 'Awesome', 'Amazing', 'Fantastic', 'Wonderful', 'Incredible', 'Unbelievable'];
+		this.words = ['Good', 'Great', 'Awesome', 'Amazing', 'Fantastic', 'Cool'];
 		this.word = this.words[this.start];
 		this.numberOfGaps = this.p5.floor(this.p5.random(2, this.word.length - 2));
 		this.bonusSound = new Audio(bonus);
 		this.damage = new Audio(hurtSound);
 		this.nextRound = new Audio(nextRound);
-		
+		this.score = 0;
+
 		this.gapPositions = this.getGapPositions().map((num) => {
 			return {
 				position: num,
@@ -153,7 +154,8 @@ class Plate {
 				pie.yspeed = 0;
 				pie.bounceOffAndFall();
 				this.bonusSound.play();
-				correctLetterFound = true; 
+				correctLetterFound = true;
+				this.score += 2;
 				/* 
 				let firework = new Firework(pie.x, pie.y, this.p5);
 				this.fireworks.push(firework); 
@@ -166,9 +168,11 @@ class Plate {
 		if (!correctLetterFound && letter.length > 0) {
 			this.createExplosion(pie.x, pie.y);
 			this.damage.play();
-		} else if (!correctLetterFound && letter === "") {
+			this.score -= 5;
+		} else if (!correctLetterFound && letter === '') {
 			this.createExplosion(pie.x, pie.y);
 			this.nextRound.play();
+			this.score += 20;
 		}
 
 		if (this.isWordComplete()) {

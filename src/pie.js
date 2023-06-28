@@ -39,6 +39,8 @@ export class Pie {
 		this.digit = this.generateRandomLetter();
 		this.yspeed = 0;
 		this.bg = letterBg;
+		this.checked = false;
+		this.killed = false;
 	}
 
 	generateRandomLetter() {
