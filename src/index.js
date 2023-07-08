@@ -23,6 +23,9 @@ const App = () => {
 	let gameStarted = false;
 	const canvasWidth = 800;
 	const canvasHeight = 600;
+	let startTime = 0;
+	let elapsedTime = 0;
+	let gameIsFinished = false
 
 	const preload = (p5) => {
 		bg = p5.loadImage(
@@ -58,6 +61,7 @@ const App = () => {
 
 	const startGame = () => {
 		gameStarted = true;
+		startTime = Date.now();
 	};
 
 	// Rest of your code
@@ -86,17 +90,20 @@ const App = () => {
 	};
 
 	const draw = (p5) => {
-		if (plate.start === plate.words.length) {
-			setTimeout(() => {
-				gameStarted = false;
-			}, 5000);
-		}
 		p5.background(bg);
 		// shirma
 		p5.fill(255);
 		p5.rect(-1, -1, 2400, 80);
 
 		if (gameStarted) {
+			if (plate.start === plate.words.length) {
+				setTimeout(() => {
+					gameIsFinished = true;
+					gameStarted = false;
+				}, 5000);
+			}
+			elapsedTime = (Date.now() - startTime) / 1000;
+			plate.score = Math.round(plate.score);
 			p5.background(bg);
 
 			// shirma
@@ -180,6 +187,16 @@ const App = () => {
 			plate.show();
 			plate.showWord();
 			p5.rectMode(p5.CENTER);
+		}
+
+		if (gameIsFinished) {
+			// final score
+			let finalScore = plate.score - Math.floor(elapsedTime / 10);
+
+			p5.fill(0);
+			p5.textSize(32);
+			p5.textAlign(p5.CENTER, p5.CENTER);
+			p5.text(finalScore, 40, 20);
 		}
 	};
 
