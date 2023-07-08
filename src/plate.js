@@ -128,24 +128,12 @@ class Plate {
 			// Calculate the x position for each diamond and text
 			let xPos = this.x + index * (this.diamondWidth + this.diamondGap);
 
-			// Draw a spinning diamond
-			this.p5.push(); // Start a new drawing state
-			this.p5.translate(xPos, this.y); // Move to the position of the diamond
-			this.p5.rotate(this.p5.frameCount * rotationSpeed); // Rotate based on the frame count
-
-			this.p5.fill('#4C05A9'); // light blue color
-			this.p5.noStroke();
-
-			// Draw a 6-sided polygon (diamond)
-			this.p5.beginShape();
-			for (let a = 0; a < this.p5.TWO_PI; a += this.p5.TWO_PI / 6) {
-				let sx = 0 + (this.diamondWidth / 2) * this.p5.cos(a);
-				let sy = 0 + (this.diamondWidth / 2) * this.p5.sin(a);
-				this.p5.vertex(sx, sy);
-			}
-			this.p5.endShape(this.p5.CLOSE);
-
-			this.p5.pop(); // Restore original drawing state
+			this.drawDiamond({
+				speed: rotationSpeed,
+				color: '#4C05A9',
+				edges: 8,
+				xPos: xPos,
+			});
 
 			// white text
 			this.p5.fill(255);
@@ -153,6 +141,27 @@ class Plate {
 			this.p5.textAlign(this.p5.CENTER, this.p5.CENTER);
 			this.p5.text(letter, xPos, this.y);
 		});
+	}
+
+	drawDiamond({ speed, color, edges, xPos }) {
+		// Draw a spinning diamond
+		this.p5.push(); // Start a new drawing state
+		this.p5.translate(xPos, this.y); // Move to the position of the diamond
+		this.p5.rotate(this.p5.frameCount * speed); // Rotate based on the frame count
+
+		this.p5.fill(color); // light blue color
+		this.p5.noStroke();
+
+		// Draw a 6-sided polygon (diamond)
+		this.p5.beginShape();
+		for (let a = 0; a < this.p5.TWO_PI; a += this.p5.TWO_PI / edges) {
+			let sx = 0 + (this.diamondWidth / 2) * this.p5.cos(a);
+			let sy = 0 + (this.diamondWidth / 2) * this.p5.sin(a);
+			this.p5.vertex(sx, sy);
+		}
+		this.p5.endShape(this.p5.CLOSE);
+
+		this.p5.pop(); // Restore original drawing state
 	}
 
 	catches(pie) {
