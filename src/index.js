@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import Sketch from 'react-p5';
 import './index.css';
@@ -21,6 +21,8 @@ const App = () => {
 	let laserSound = new Audio(laser);
 	let crackSound = new Audio(crack);
 	let gameStarted = false;
+	const canvasWidth = 800;
+	const canvasHeight = 600;
 
 	const preload = (p5) => {
 		bg = p5.loadImage(
@@ -37,7 +39,7 @@ const App = () => {
 	};
 
 	const setup = (p5, parentRef) => {
-		p5.createCanvas(800, 400).parent(parentRef);
+		p5.createCanvas(canvasWidth, canvasHeight).parent(parentRef);
 		plate = new Plate(p5.width / 2, 50, p5);
 	};
 
@@ -59,18 +61,22 @@ const App = () => {
 	};
 
 	const draw = (p5) => {
-		p5.background(0);
-
+		p5.background(bg);
+		
 		if (gameStarted) {
-			p5.clear();
-			p5.background(0);
-
+			p5.background(bg);
+			
 			// scoring
-			p5.fill(255);
+			p5.fill(0);
 			p5.textSize(32);
 			p5.textAlign(p5.CENTER, p5.CENTER);
 			p5.text(plate.score, 40, 20);
-
+			
+			// shirma
+			p5.fill(255);
+			
+			p5.rect(-1, -1, 2400, 80);
+			
 			if (p5.random(1) < 0.03) {
 				if (p5.random(1) < 0.1) {
 					// 10% chance to create a SpecialPie
@@ -140,6 +146,7 @@ const App = () => {
 			plate.show();
 			plate.showWord();
 			p5.rectMode(p5.CENTER);
+
 		}
 	};
 

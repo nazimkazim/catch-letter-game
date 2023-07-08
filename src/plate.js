@@ -56,9 +56,6 @@ class Plate {
 			};
 		});
 		this.wordWithGaps = this.createAWordWithGapsAtRandomPositions();
-		this.bg = p5.loadImage(
-			'https://res.cloudinary.com/nzmai/image/upload/v1686227368/images%20for%20kahoot/diamond.png'
-		);
 	}
 
 	getGapPositions() {
@@ -79,7 +76,7 @@ class Plate {
 		let wordWithGaps = '';
 		for (let i = 0; i < word.length; i++) {
 			if (this.getOnlyPositions(this.gapPositions).includes(i)) {
-				wordWithGaps += '_';
+				wordWithGaps += ' ';
 			} else {
 				wordWithGaps += word[i];
 			}
@@ -125,13 +122,30 @@ class Plate {
 
 	showWord() {
 		const wordWithGap = this.wordWithGaps;
+		const rotationSpeed = 0.01;
 
 		wordWithGap.split('').forEach((letter, index) => {
 			// Calculate the x position for each diamond and text
 			let xPos = this.x + index * (this.diamondWidth + this.diamondGap);
 
-			this.p5.imageMode(this.p5.CENTER);
-			this.p5.image(this.bg, xPos, this.y, this.diamondWidth, this.diamondWidth);
+			// Draw a spinning diamond
+			this.p5.push(); // Start a new drawing state
+			this.p5.translate(xPos, this.y); // Move to the position of the diamond
+			this.p5.rotate(this.p5.frameCount * rotationSpeed); // Rotate based on the frame count
+
+			this.p5.fill('#4C05A9'); // light blue color
+			this.p5.noStroke();
+
+			// Draw a 6-sided polygon (diamond)
+			this.p5.beginShape();
+			for (let a = 0; a < this.p5.TWO_PI; a += this.p5.TWO_PI / 6) {
+				let sx = 0 + (this.diamondWidth / 2) * this.p5.cos(a);
+				let sy = 0 + (this.diamondWidth / 2) * this.p5.sin(a);
+				this.p5.vertex(sx, sy);
+			}
+			this.p5.endShape(this.p5.CLOSE);
+
+			this.p5.pop(); // Restore original drawing state
 
 			// white text
 			this.p5.fill(255);
