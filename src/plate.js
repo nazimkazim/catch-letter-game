@@ -2,6 +2,9 @@ import bonus from './audio/bonus.mp3';
 import hurtSound from './audio/hurt.mp3';
 import nextRound from './audio/next-round.mp3';
 import { Particle } from './particle.js';
+import Rabbit from './img/rabbit.png';
+import Snake from './img/snake.png';
+import Bull from './img/bull.png';
 // import { Firework } from './firework';
 
 class Plate {
@@ -16,8 +19,30 @@ class Plate {
 		this.diamondWidth = 30;
 		this.diamondGap = 10;
 		this.y = p5.height - this.h;
-		this.words = ['Good', 'Great', 'Awesome', 'Amazing', 'Fantastic', 'Cool'];
-		this.word = this.words[this.start];
+		this.words = [
+			{
+				word: 'Rabbit',
+				picture: Rabbit,
+			},
+			{
+				word: 'Snake',
+				picture: Snake,
+			},
+			{
+				word: 'Bull',
+				picture: Bull,
+			},
+			{
+				word: 'Dog',
+				picture: './img/dog.png',
+			},
+			{
+				word: 'Lion',
+				picture: './img/lion.png',
+			},
+		];
+		this.word = this.words[this.start].word;
+		this.picture = this.words[this.start].picture;
 		this.numberOfGaps = this.p5.floor(this.p5.random(2, this.word.length - 2));
 		this.bonusSound = new Audio(bonus);
 		this.damage = new Audio(hurtSound);
@@ -178,7 +203,7 @@ class Plate {
 		if (this.isWordComplete()) {
 			this.start++;
 			if (this.start < this.words.length) {
-				this.word = this.words[this.start];
+				this.word = this.words[this.start].word;
 				this.numberOfGaps = this.p5.floor(this.p5.random(2, this.word.length - 2));
 				this.gapPositions = this.getGapPositions().map((num) => {
 					return {
