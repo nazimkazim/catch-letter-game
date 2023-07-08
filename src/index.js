@@ -25,7 +25,8 @@ const App = () => {
 	const canvasHeight = 600;
 	let startTime = 0;
 	let elapsedTime = 0;
-	let gameIsFinished = false
+	let gameIsFinished = false;
+	let p5Global = null
 
 	const preload = (p5) => {
 		bg = p5.loadImage(
@@ -39,6 +40,8 @@ const App = () => {
 			'https://res.cloudinary.com/nzmai/image/upload/v1687007388/images%20for%20kahoot/special_diamond.png'
 		);
 		p5.soundFormats('mp3', 'ogg');
+
+		p5Global = p5
 	};
 
 	const setup = (p5, parentRef) => {
@@ -62,6 +65,17 @@ const App = () => {
 	const startGame = () => {
 		gameStarted = true;
 		startTime = Date.now();
+	};
+
+	const resetGame = () => {
+		pies = [];
+		bullets = [];
+		particles = [];
+		plate = new Plate(p5Global.width / 2, 50, p5Global);
+		gameStarted = false;
+		startTime = 0;
+		elapsedTime = 0;
+		gameIsFinished = false;
 	};
 
 	// Rest of your code
@@ -205,6 +219,9 @@ const App = () => {
 			<h1>Catch a Letter Game</h1>
 			<button className="start-btn" onClick={startGame}>
 				Start Game
+			</button>
+			<button className="reset-btn" onClick={resetGame}>
+				Reset Game
 			</button>
 			{<Sketch preload={preload} setup={setup} draw={draw} mouseClicked={mouseClicked} />}
 		</div>

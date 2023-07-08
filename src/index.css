@@ -10,7 +10,7 @@
     height: 100vh;
 }
 
-.start-btn {
+.start-btn, .reset-btn {
     cursor: pointer;
     margin-bottom: 10px;
     border-radius: 6px;
@@ -18,6 +18,10 @@
     border: none;
     padding: 20px;
     background-color: rgb(144, 184, 184);
+}
+
+.start-btn {
+    margin-right: 5px;
 }
 
 .word-picture {
