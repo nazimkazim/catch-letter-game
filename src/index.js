@@ -60,23 +60,57 @@ const App = () => {
 		gameStarted = true;
 	};
 
+	// Rest of your code
+	let imageCache = {};
+
+	const loadImage = (p5, url) => {
+		// Check if the image has already been loaded
+		if (!imageCache[url]) {
+			// Load the image and save it in the cache
+			imageCache[url] = p5.loadImage(url);
+		}
+
+		// Return the image from the cache
+		return imageCache[url];
+	};
+
+	const showWordsPictures = (p5) => {
+		const imageWidth = 40;
+		const margin = 10; // margin between images
+		const totalWidth = plate.words.length * (imageWidth + margin);
+		plate.words.slice(plate.start).forEach((word, index) => {
+			let img = loadImage(p5, word.picture);
+			let x = canvasWidth / 2 - totalWidth / 2 + index * (imageWidth + margin);
+			p5.image(img, x, 0, imageWidth, imageWidth); // adjust positioning as necessary
+		});
+	};
+
 	const draw = (p5) => {
+		if (plate.start === plate.words.length) {
+			setTimeout(() => {
+				gameStarted = false;
+			}, 5000);
+		}
 		p5.background(bg);
-		
+		// shirma
+		p5.fill(255);
+		p5.rect(-1, -1, 2400, 80);
+
 		if (gameStarted) {
 			p5.background(bg);
-			
+
+			// shirma
+			p5.fill(255);
+			p5.rect(-1, -1, 2400, 80);
+
+			showWordsPictures(p5);
+
 			// scoring
 			p5.fill(0);
 			p5.textSize(32);
 			p5.textAlign(p5.CENTER, p5.CENTER);
 			p5.text(plate.score, 40, 20);
-			
-			// shirma
-			p5.fill(255);
-			
-			p5.rect(-1, -1, 2400, 80);
-			
+
 			if (p5.random(1) < 0.03) {
 				if (p5.random(1) < 0.1) {
 					// 10% chance to create a SpecialPie
@@ -146,7 +180,6 @@ const App = () => {
 			plate.show();
 			plate.showWord();
 			p5.rectMode(p5.CENTER);
-
 		}
 	};
 

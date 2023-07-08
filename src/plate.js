@@ -5,6 +5,8 @@ import { Particle } from './particle.js';
 import Rabbit from './img/rabbit.png';
 import Snake from './img/snake.png';
 import Bull from './img/bull.png';
+import Dog from './img/dog.png';
+import Lion from './img/lion.png';
 // import { Firework } from './firework';
 
 class Plate {
@@ -34,11 +36,11 @@ class Plate {
 			},
 			{
 				word: 'Dog',
-				picture: './img/dog.png',
+				picture: Dog,
 			},
 			{
 				word: 'Lion',
-				picture: './img/lion.png',
+				picture: Lion,
 			},
 		];
 		this.word = this.words[this.start].word;
