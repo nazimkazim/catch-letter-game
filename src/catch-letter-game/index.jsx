@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Sketch from 'react-p5';
 import './index.css';
 import { Pie, SpecialPie } from './pie';
@@ -49,10 +49,13 @@ export const CatchLetterGame = () => {
 	};
 
 	const mouseClicked = (p5) => {
+        if (!gameStarted) return
 		// play sound
 		laserSound.play();
-		let bullet = new Bullet(p5.mouseX, p5.mouseY, plate.x, plate.y, p5);
-		bullets.push(bullet);
+		if (plate) {
+			let bullet = new Bullet(p5.mouseX, p5.mouseY, plate.x, plate.y, p5);
+			bullets.push(bullet);
+		}
 	};
 
 	const createExplosion = (x, y, p5) => {
@@ -216,7 +219,10 @@ export const CatchLetterGame = () => {
 	return (
 		<div className="catch-letter-game">
 			<h1>Catch a Letter Game</h1>
-			<button className="start-btn" onClick={startGame}>
+			<button className="start-btn" onClick={(e) => {
+                e.stopPropagation()
+                startGame()
+            }}>
 				Start Game
 			</button>
 			<button className="reset-btn" onClick={resetGame}>
