@@ -1,0 +1,23 @@
+.blurred-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+    height: 600px;
+    background-color: aquamarine;
+    margin: 0 auto;
+}
+
+.image {
+    width: 400px;
+    height: 400px;
+    margin-bottom:100px;
+}
+
+.image img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    filter: blur(60px);
+}

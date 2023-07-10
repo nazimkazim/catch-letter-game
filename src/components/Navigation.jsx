@@ -10,6 +10,7 @@ export const Navigation = () => {
 				<Link to="/catch-letter">Catch Letter</Link>
 				<Link to="/data">Data</Link>
 				<Link to="/contact">Contact</Link>
+				<Link to="/blurred-image">Blurred Image Game</Link>
 			</div>
 			<div>
 				<Outlet />

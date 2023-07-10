@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import Contact from './pages/Contact';
 import Data from './pages/Data';
 import { Navigation } from './components/Navigation';
+import BlurredImageGame from './blurred-image-game';
+import './index.css'
 
 const App = () => {
 	const router = createBrowserRouter(
@@ -15,6 +17,7 @@ const App = () => {
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/data" element={<Data />} />
 				<Route path="/catch-letter" element={<CatchLetterGame />} />
+				<Route path="/blurred-image" element={<BlurredImageGame />} />
 			</Route>
 		)
 	);
