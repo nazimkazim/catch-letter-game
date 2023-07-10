@@ -7,7 +7,7 @@
 .catch-letter-game {
     text-align: center;
     background-color: black;
-    height: 100vh;
+    height: calc( 100vh - 80px);
 }
 
 .start-btn, .reset-btn {
