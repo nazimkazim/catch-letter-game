@@ -21,3 +21,27 @@
     height: 100%;
     filter: blur(60px);
 }
+
+.word-input {
+    display: flex;
+    width: 200px;
+}
+
+.word-input input {
+    width: 20px;
+    flex: 1;
+}
+
+.blur-btn {
+    display: flex;
+    width: 100px;
+    height: 50px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}

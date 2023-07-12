@@ -5,7 +5,7 @@ const Button = ({
     name
 }) => {
   return (
-    <button onClick={onClickHandler}>
+    <button className='blur-btn' onClick={onClickHandler}>
         {name}
     </button>
   )
