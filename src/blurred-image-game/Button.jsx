@@ -2,11 +2,13 @@ import React from 'react'
 
 const Button = ({
     onClickHandler,
-    name
+    name,
+    icon
 }) => {
   return (
     <button className='blur-btn' onClick={onClickHandler}>
-        {name}
+        {icon && icon}
+        {name && <span>{name}</span>}
     </button>
   )
 }

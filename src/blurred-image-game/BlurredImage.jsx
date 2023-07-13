@@ -1,11 +1,10 @@
 import React from 'react';
-import Apple from './img/apple.jpg';
 import './BlurredImage.css';
 
-const BlurredImage = ({ blur }) => {
+const BlurredImage = ({ blur, image }) => {
 	return (
 		<div className="image">
-			<img alt="image" src={Apple} style={{ filter: `blur(${blur}px)` }} />
+			<img alt="image" src={image} style={{ filter: `blur(${blur}px)` }} />
 		</div>
 	);
 };

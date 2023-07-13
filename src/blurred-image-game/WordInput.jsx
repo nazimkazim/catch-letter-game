@@ -1,7 +1,7 @@
 import React, { useState, createRef } from 'react';
 
-const WordInput = () => {
-    const [word, setWord] = useState(Array(5).fill(""));
+const WordInput = ({guessWord}) => {
+    const [word, setWord] = useState(Array(guessWord.length).fill(""));
     const inputRefs = Array(5).fill().map(() => createRef());
 
     const onChangeHandler = (e, index) => {
