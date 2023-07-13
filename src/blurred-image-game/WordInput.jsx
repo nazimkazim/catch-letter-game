@@ -1,8 +1,12 @@
-import React, { useState, createRef } from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 
 const WordInput = ({guessWord}) => {
-    const [word, setWord] = useState(Array(guessWord.length).fill(""));
-    const inputRefs = Array(5).fill().map(() => createRef());
+    const [word, setWord] = useState([]);
+    const inputRefs = Array(guessWord.length).fill().map(() => createRef());
+
+    useEffect(() => {
+        setWord(Array(guessWord.length).fill(""))
+    }, [guessWord])
 
     const onChangeHandler = (e, index) => {
         let newWord = [...word];

@@ -8,14 +8,23 @@ export const words = {
 		{
 			name: 'apple',
 			image: Apple,
+			done: false,
+			attempts: 4,
+			maxPoints: 400
 		},
 		{
-			name: Banana,
-			image: './img/banana.jpg',
+			name: 'banana',
+			image: Banana,
+			done: false,
+			attempts: 4,
+			maxPoints: 400
 		},
 		{
-			name: StrawBerry,
-			image: './img/strawberry.jpg',
+			name: 'strawberry',
+			image: StrawBerry,
+			done: false,
+			attempts: 4,
+			maxPoints: 400
 		},
 	],
 };

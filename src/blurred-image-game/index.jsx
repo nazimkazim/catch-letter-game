@@ -7,40 +7,46 @@ import { FcNext, FcPrevious } from 'react-icons/fc';
 import {words} from './data'
 
 const BlurredImageGame = () => {
-	const [blur, setBlur] = useState(60);
-	const [currentImage, setCurrentImage] = useState(0);
-	const [wordsData, setWordsData] = useState([])
+    const [blur, setBlur] = useState(50);
+    const [currentImage, setCurrentImage] = useState(0);
+    const [wordsData, setWordsData] = useState([])
 
-	useEffect(() => {
-		setWordsData(words.items[currentImage])
-	}, [currentImage])
+    useEffect(() => {
+        setWordsData(words.items)
+    }, [])
 
-	const handleImageBlur = () => {
-		setBlur((prev) => prev - 15);
-	};
+    const handleImageBlur = () => {
+        setBlur((prev) => prev - 10);
+    };
 
-	const goToNextWord = () => {
-		setCurrentImage(prev => prev + 1)
-	}
+    const goToNextWord = () => {
+        setCurrentImage(prev => prev + 1 < wordsData.length ? prev + 1 : prev)
+		setBlur(50)
+    }
 
-	const goToPrevWord = () => {
-		setCurrentImage(prev => prev - 1)
-	}
+    const goToPrevWord = () => {
+        setCurrentImage(prev => prev - 1 >= 0 ? prev - 1 : prev)
+		setBlur(50)
+    }
 
-	return (
-		<div className="blurred-image-container">
-			<BlurredImage image={wordsData.image} blur={blur} />
-			<Button name="Reduce Blur" onClickHandler={handleImageBlur} />
-			
-			{ wordsData.name &&	<WordInput guessWord={wordsData.name} />}
+    return (
+        <div className="blurred-image-container">
+			{words.theme}
+            { wordsData.length > 0 && 
+                <BlurredImage image={wordsData[currentImage].image} blur={blur} />
+            }
+            <Button name="Reduce Blur" onClickHandler={handleImageBlur} />
+            
+            { wordsData.length > 0 && 
+                <WordInput guessWord={wordsData[currentImage].name} />
+            }
 
-			
-			<div className="prev-next-container">
-				<Button icon={<FcPrevious />} onClickHandler={goToPrevWord} />
-				<Button icon={<FcNext />} onClickHandler={goToNextWord} />
-			</div>
-		</div>
-	);
+            <div className="prev-next-container">
+                <Button icon={<FcPrevious />} onClickHandler={goToPrevWord} />
+                <Button icon={<FcNext />} onClickHandler={goToNextWord} />
+            </div>
+        </div>
+    );
 };
 
 export default BlurredImageGame;
