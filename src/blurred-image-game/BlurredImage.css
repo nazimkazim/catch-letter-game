@@ -7,21 +7,39 @@
     height: 600px;
     background-color: aquamarine;
     margin: 0 auto;
-    overflow: hidden;  /* Add this line */
-
+    overflow: hidden;
 }
 
 .image {
-    width: 400px;
-    height: 400px;
-    margin-bottom:100px;
+    width: 100%;
+    /* This will force the container to maintain a 4:3 aspect ratio */
+    padding-top: 75%;
+    position: relative;
 }
 
 .image img {
     object-fit: cover;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     height: 100%;
-    filter: blur(60px);
+}
+
+
+.blurred-image-container_topic {
+    align-self: self-start;
+    padding: 10px;
+    border: 2px solid lightblue;
+    border-radius: 6px;
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 24px;
+    box-sizing: border-box;
+    background-color: rgb(48, 48, 60);
+    color: white;
 }
 
 .word-input {
@@ -48,10 +66,12 @@
     font-size: 12px;
     text-transform: uppercase;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .prev-next-container {
     display: flex;
     margin-top: 10px;
     gap: 5px;
+    margin-bottom: 60px;
 }
